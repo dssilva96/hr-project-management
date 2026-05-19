@@ -4,9 +4,9 @@
 {% block page_title %}Dashboard{% endblock %}
 
 {% block page_actions %}
-    <button class="btn btn-primary">
+    <a class="btn btn-primary" href="{% url 'project:create' %}">
         <i class="bi bi-plus-lg me-2"></i>New project
-    </button>
+    </a>
 {% endblock %}
 
 {% block content %}

@@ -13,19 +13,19 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a class="sidebar-link active" href="#">
+        <a class="sidebar-link" href="{% url 'dashboard' %}">
             <i class="bi bi-grid-1x2"></i>
             <span>Dashboard</span>
         </a>
-        <a class="sidebar-link" href="#">
+        <a class="sidebar-link" href="{% url 'project:list' %}">
             <i class="bi bi-folder2-open"></i>
             <span>Projects</span>
         </a>
-        <a class="sidebar-link" href="#">
+        <a class="sidebar-link" href="{% url 'tasks:list' %}">
             <i class="bi bi-check2-square"></i>
             <span>Tasks</span>
         </a>
-        <a class="sidebar-link" href="#">
+        <a class="sidebar-link" href="{% url 'employees:list' %}">
             <i class="bi bi-people"></i>
             <span>Team</span>
         </a>

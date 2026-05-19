@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Deactivate {{ employee }} | Project Management{% endblock %}
+{% block page_title %}Deactivate employee{% endblock %}
+
+{% block page_actions %}
+    <a class="btn btn-outline-secondary" href="{% url 'employees:list' %}">
+        <i class="bi bi-arrow-left me-2"></i>Team
+    </a>
+{% endblock %}
+
+{% block content %}
+    <section class="content-panel cancel-panel">
+        <div class="cancel-icon">
+            <i class="bi bi-person-dash"></i>
+        </div>
+        <h2 class="h4">Deactivate {{ employee }}?</h2>
+        <p class="text-muted">This keeps their profile and team history, but marks them inactive.</p>
+        <form method="post" class="d-flex flex-wrap gap-2">
+            {% csrf_token %}
+            <a class="btn btn-outline-secondary" href="{% url 'employees:list' %}">Keep active</a>
+            <button class="btn btn-danger" type="submit">
+                <i class="bi bi-person-dash me-2"></i>Deactivate
+            </button>
+        </form>
+    </section>
+{% endblock %}

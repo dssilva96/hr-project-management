@@ -244,6 +244,367 @@ body {
     box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
 }
 
+.project-stat {
+    min-height: 120px;
+}
+
+.table-shell,
+.content-panel {
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
+}
+
+.content-panel {
+    padding: 24px;
+}
+
+.table-shell .table th {
+    padding: 16px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #f8fafc;
+}
+
+.table-shell .table td {
+    padding: 16px;
+}
+
+.project-description {
+    max-width: 360px;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.status-planning {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-in_progress {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-on_hold {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-completed {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-active,
+.status-done {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-inactive,
+.status-todo {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.status-terminated,
+.status-blocked {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-review {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.priority-low {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.priority-medium {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.priority-high {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.priority-urgent {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.empty-state {
+    display: grid;
+    justify-items: center;
+    padding: 44px 20px;
+    text-align: center;
+}
+
+.empty-state i {
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-size: 2rem;
+}
+
+.project-form .form-label {
+    font-weight: 700;
+}
+
+.project-form .errorlist {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    color: #b91c1c;
+    font-size: 0.875rem;
+}
+
+.project-meta {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.project-meta div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.project-meta dt {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.project-meta dd {
+    margin: 0;
+    text-align: right;
+    font-weight: 700;
+}
+
+.timeline-with-icons {
+    position: relative;
+    display: grid;
+    gap: 26px;
+    margin: 0;
+    padding: 0 0 0 48px;
+    list-style: none;
+}
+
+.timeline-with-icons::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 18px;
+    width: 2px;
+    background: #dbeafe;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+.timeline-icon {
+    position: absolute;
+    top: -2px;
+    left: -48px;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #bfdbfe;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: var(--accent);
+}
+
+.cancel-panel {
+    max-width: 680px;
+}
+
+.cancel-icon {
+    width: 54px;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 1.5rem;
+}
+
+.team-stack {
+    display: grid;
+    gap: 10px;
+}
+
+.team-card,
+.team-overview-card {
+    color: inherit;
+    text-decoration: none;
+}
+
+.team-card {
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.team-card:hover,
+.team-card:focus,
+.team-overview-card:hover,
+.team-overview-card:focus {
+    border-color: #bfdbfe;
+    color: inherit;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.team-overview-card {
+    display: block;
+    min-height: 176px;
+}
+
+.member-picker {
+    max-height: 420px;
+    overflow: auto;
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.member-picker ul {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.member-picker label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #ffffff;
+    font-weight: 700;
+}
+
+.member-picker input {
+    width: 16px;
+    height: 16px;
+}
+
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+}
+
+.member-card {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.phase-stack,
+.task-stack {
+    display: grid;
+    gap: 14px;
+}
+
+.phase-block {
+    padding: 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.phase-header,
+.task-row,
+.empty-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.phase-header {
+    margin-bottom: 12px;
+}
+
+.task-row,
+.empty-inline {
+    min-height: 58px;
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.empty-inline {
+    color: var(--text-muted);
+}
+
+@media (max-width: 575.98px) {
+    .phase-header,
+    .task-row,
+    .empty-inline {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
 .card-label {
     color: var(--text-muted);
     font-size: 0.86rem;

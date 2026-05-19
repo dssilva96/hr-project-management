@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Cancel {{ project.name }} | Project Management{% endblock %}
+{% block page_title %}Cancel project{% endblock %}
+
+{% block page_actions %}
+    <a class="btn btn-outline-secondary" href="{% url 'project:detail' project.project_id %}">
+        <i class="bi bi-arrow-left me-2"></i>Back
+    </a>
+{% endblock %}
+
+{% block content %}
+    <section class="content-panel cancel-panel">
+        <div class="cancel-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+        </div>
+        <h2 class="h4">Cancel {{ project.name }}?</h2>
+        <p class="text-muted">
+            This will keep the project record and timeline, but mark it as cancelled so it no longer appears as active work.
+        </p>
+
+        <form method="post" class="d-flex flex-wrap gap-2">
+            {% csrf_token %}
+            <a class="btn btn-outline-secondary" href="{% url 'project:detail' project.project_id %}">Keep project</a>
+            <button class="btn btn-danger" type="submit">
+                <i class="bi bi-x-lg me-2"></i>Cancel project
+            </button>
+        </form>
+    </section>
+{% endblock %}

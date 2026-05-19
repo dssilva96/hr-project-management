@@ -1,6 +1,6 @@
 from django.db import models
 from project.models import ProjectPhase
-from employees.models import Employee
+from employees.models import Employee, Team
 from django.contrib.auth.models import User
 
 class Task(models.Model):
@@ -22,6 +22,7 @@ class Task(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(blank=True)
     assigned_to = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
+    assigned_team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='todo')
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
     due_date = models.DateField(null=True, blank=True)

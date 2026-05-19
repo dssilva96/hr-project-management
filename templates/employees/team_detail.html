@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ team.name }} | Project Management{% endblock %}
+{% block page_title %}{{ team.name }}{% endblock %}
+
+{% block page_actions %}
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-secondary" href="{% url 'employees:list' %}">
+            <i class="bi bi-arrow-left me-2"></i>Team
+        </a>
+        <a class="btn btn-outline-primary" href="{% url 'employees:team_edit' team.team_id %}">
+            <i class="bi bi-pencil me-2"></i>Edit team
+        </a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row g-4">
+        <div class="col-12 col-xl-4">
+            <section class="content-panel">
+                <p class="card-label mb-1">Team overview</p>
+                <h2 class="h5 mb-3">{{ team.name }}</h2>
+                <p class="text-muted">{{ team.description|default:'No description yet.' }}</p>
+                <dl class="project-meta">
+                    <div>
+                        <dt>Lead</dt>
+                        <dd>{{ team.lead|default:'Unassigned' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Members</dt>
+                        <dd>{{ team.members.count }}</dd>
+                    </div>
+                    <div>
+                        <dt>Tasks</dt>
+                        <dd>{{ tasks.count }}</dd>
+                    </div>
+                </dl>
+            </section>
+        </div>
+        <div class="col-12 col-xl-8">
+            <section class="content-panel mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <p class="card-label mb-1">Members</p>
+                        <h2 class="h5 mb-0">People assigned together</h2>
+                    </div>
+                    <a class="btn btn-sm btn-outline-primary" href="{% url 'employees:team_edit' team.team_id %}">
+                        <i class="bi bi-people me-1"></i>Manage
+                    </a>
+                </div>
+                <div class="member-grid">
+                    {% for member in team.members.all %}
+                        <div class="member-card">
+                            <span class="avatar">{{ member.first_name|first|upper }}{{ member.last_name|first|upper }}</span>
+                            <div>
+                                <div class="fw-semibold">{{ member }}</div>
+                                <div class="text-muted small">{{ member.position }}</div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">No members assigned yet.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="content-panel">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <p class="card-label mb-1">Assigned tasks</p>
+                        <h2 class="h5 mb-0">Team workload</h2>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Project</th>
+                                <th>Due</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">{{ task.title }}</div>
+                                        <div class="text-muted small">{{ task.phase.name }}</div>
+                                    </td>
+                                    <td>{{ task.phase.project.name }}</td>
+                                    <td>{{ task.due_date|date:'M j, Y'|default:'-' }}</td>
+                                    <td><span class="status-pill status-{{ task.status }}">{{ task.get_status_display }}</span></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-muted">No tasks assigned to this team yet.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

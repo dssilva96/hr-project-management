@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.name }} | Project Management{% endblock %}
+{% block page_title %}{{ project.name }}{% endblock %}
+
+{% block page_actions %}
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-secondary" href="{% url 'project:list' %}">
+            <i class="bi bi-arrow-left me-2"></i>Projects
+        </a>
+        <a class="btn btn-outline-primary" href="{% url 'project:edit' project.project_id %}">
+            <i class="bi bi-pencil me-2"></i>Edit
+        </a>
+        <a class="btn btn-outline-primary" href="{% url 'project:phase_create' project.project_id %}">
+            <i class="bi bi-diagram-3 me-2"></i>Add phase
+        </a>
+        <a class="btn btn-primary" href="{% url 'project:task_create' project.project_id %}">
+            <i class="bi bi-plus-lg me-2"></i>Add task
+        </a>
+        {% if project.status != 'cancelled' %}
+            <a class="btn btn-outline-danger" href="{% url 'project:cancel' project.project_id %}">
+                <i class="bi bi-x-lg me-2"></i>Cancel project
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row g-4">
+        <div class="col-12 col-xl-4">
+            <section class="content-panel">
+                <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+                    <div>
+                        <p class="card-label mb-1">Project overview</p>
+                        <h2 class="h5 mb-0">{{ project.name }}</h2>
+                    </div>
+                    <span class="status-pill status-{{ project.status }}">{{ project.get_status_display }}</span>
+                </div>
+
+                <dl class="project-meta">
+                    <div>
+                        <dt>Client</dt>
+                        <dd>{{ project.client_name|default:'-' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Manager</dt>
+                        <dd>{{ project.manager|default:'Unassigned' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Start</dt>
+                        <dd>{{ project.start_date|date:'M j, Y' }}</dd>
+                    </div>
+                    <div>
+                        <dt>End</dt>
+                        <dd>{{ project.end_date|date:'M j, Y' }}</dd>
+                    </div>
+                    <div>
+                        <dt>Phases</dt>
+                        <dd>{{ phases.count }}</dd>
+                    </div>
+                    <div>
+                        <dt>Tasks</dt>
+                        <dd>{{ tasks|length }}</dd>
+                    </div>
+                </dl>
+
+                {% if project.description %}
+                    <p class="text-muted mb-0">{{ project.description }}</p>
+                {% endif %}
+            </section>
+        </div>
+
+        <div class="col-12 col-xl-8">
+            <section class="content-panel mb-4">
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+                    <div>
+                        <p class="card-label mb-1">Work plan</p>
+                        <h2 class="h5 mb-0">Phases and tasks</h2>
+                    </div>
+                    <a class="btn btn-sm btn-outline-primary" href="{% url 'project:task_create' project.project_id %}">
+                        <i class="bi bi-plus-lg me-1"></i>Task
+                    </a>
+                </div>
+
+                <div class="phase-stack">
+                    {% for phase in phases %}
+                        <section class="phase-block">
+                            <div class="phase-header">
+                                <div>
+                                    <p class="text-muted small mb-1">Phase {{ phase.order }}</p>
+                                    <h3 class="h6 mb-0">{{ phase.name }}</h3>
+                                </div>
+                                <span class="text-muted small">
+                                    {{ phase.start_date|date:'M j'|default:'No start' }}
+                                    to
+                                    {{ phase.end_date|date:'M j, Y'|default:'No end' }}
+                                </span>
+                            </div>
+                            {% if phase.description %}
+                                <p class="text-muted mb-3">{{ phase.description }}</p>
+                            {% endif %}
+
+                            <div class="task-stack">
+                                {% for task in phase.tasks.all %}
+                                    <div class="task-row">
+                                        <div>
+                                            <div class="fw-semibold">{{ task.title }}</div>
+                                            <div class="text-muted small">
+                                                {% if task.assigned_team %}
+                                                    {{ task.assigned_team }}
+                                                {% elif task.assigned_to %}
+                                                    {{ task.assigned_to }}
+                                                {% else %}
+                                                    Unassigned
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
+                                            <span class="status-pill priority-{{ task.priority }}">{{ task.get_priority_display }}</span>
+                                            <span class="status-pill status-{{ task.status }}">{{ task.get_status_display }}</span>
+                                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'tasks:edit' task.id %}?next={% url 'project:detail' project.project_id %}" title="Edit task">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <div class="empty-inline">
+                                        <span class="text-muted">No tasks in this phase yet.</span>
+                                        <a href="{% url 'project:task_create' project.project_id %}">Add task</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    {% empty %}
+                        <div class="empty-state">
+                            <i class="bi bi-diagram-3"></i>
+                            <h2 class="h5 mb-2">No phases yet</h2>
+                            <p class="text-muted mb-3">Add a phase to organize this project’s tasks.</p>
+                            <a class="btn btn-primary" href="{% url 'project:phase_create' project.project_id %}">
+                                <i class="bi bi-diagram-3 me-2"></i>Add phase
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="content-panel">
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+                    <div>
+                        <p class="card-label mb-1">Timeline</p>
+                        <h2 class="h5 mb-0">Project milestones</h2>
+                    </div>
+                    <i class="bi bi-clock-history text-primary fs-4"></i>
+                </div>
+
+                <ul class="timeline-with-icons">
+                    {% for item in timeline_items %}
+                        <li class="timeline-item">
+                            <span class="timeline-icon">
+                                <i class="bi {{ item.icon }}"></i>
+                            </span>
+                            <h3 class="h6 fw-bold mb-1">{{ item.title }}</h3>
+                            <p class="text-muted mb-2 fw-bold">{{ item.date|date:'j F Y' }}</p>
+                            <p class="text-muted mb-0">{{ item.description }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects | Project Management{% endblock %}
+{% block page_title %}Projects{% endblock %}
+
+{% block page_actions %}
+    <a class="btn btn-primary" href="{% url 'project:create' %}">
+        <i class="bi bi-plus-lg me-2"></i>New project
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="dashboard-card project-stat">
+                <div class="card-label">In progress</div>
+                <div class="card-value">{{ status_counts.in_progress }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="dashboard-card project-stat">
+                <div class="card-label">Planning</div>
+                <div class="card-value">{{ status_counts.planning }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="dashboard-card project-stat">
+                <div class="card-label">Completed</div>
+                <div class="card-value">{{ status_counts.completed }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="dashboard-card project-stat">
+                <div class="card-label">Cancelled</div>
+                <div class="card-value">{{ status_counts.cancelled }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-shell">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Client</th>
+                        <th>Manager</th>
+                        <th>Dates</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>
+                                <a class="fw-semibold text-decoration-none" href="{% url 'project:detail' project.project_id %}">
+                                    {{ project.name }}
+                                </a>
+                                {% if project.description %}
+                                    <div class="text-muted small text-truncate project-description">{{ project.description }}</div>
+                                {% endif %}
+                            </td>
+                            <td>{{ project.client_name|default:'-' }}</td>
+                            <td>{{ project.manager|default:'Unassigned' }}</td>
+                            <td>
+                                <span class="small">{{ project.start_date|date:'M j, Y' }}</span>
+                                <span class="text-muted small">to</span>
+                                <span class="small">{{ project.end_date|date:'M j, Y' }}</span>
+                            </td>
+                            <td>
+                                <span class="status-pill status-{{ project.status }}">{{ project.get_status_display }}</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group" role="group" aria-label="Project actions">
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'project:detail' project.project_id %}" title="View">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'project:edit' project.project_id %}" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    {% if project.status != 'cancelled' %}
+                                        <a class="btn btn-sm btn-outline-danger" href="{% url 'project:cancel' project.project_id %}" title="Cancel">
+                                            <i class="bi bi-x-lg"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="bi bi-folder-plus"></i>
+                                    <h2 class="h5 mb-2">No projects yet</h2>
+                                    <p class="text-muted mb-3">Create your first project to start tracking work and timeline milestones.</p>
+                                    <a class="btn btn-primary" href="{% url 'project:create' %}">
+                                        <i class="bi bi-plus-lg me-2"></i>New project
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

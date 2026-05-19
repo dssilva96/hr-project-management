@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 from employees.models import Employee
 
@@ -11,10 +12,10 @@ class Project(models.Model):
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     ]
-    project_id = models.UUIDField(primary_key=True, editable=False)
+    project_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     client_name = models.CharField(max_length=150, blank=True)
-    manager = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    manager = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -32,3 +33,9 @@ class ProjectPhase(models.Model):
     order = models.PositiveIntegerField(default=1)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['order', 'start_date', 'name']
+
+    def __str__(self):
+        return f'{self.project} - {self.name}'
