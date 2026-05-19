@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Project Management{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block page_actions %}
+    <button class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>New project
+    </button>
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3">
+        <div class="col-12 col-md-4">
+            <div class="dashboard-card">
+                <div class="card-label">Active projects</div>
+                <div class="card-value">0</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="dashboard-card">
+                <div class="card-label">Open tasks</div>
+                <div class="card-value">0</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="dashboard-card">
+                <div class="card-label">Team members</div>
+                <div class="card-value">0</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
